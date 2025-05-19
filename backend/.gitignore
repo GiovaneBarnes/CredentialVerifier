@@ -35,3 +35,4 @@ build/
 ### Custom ###
 web3j-1.7.0/
 web3j.tar.gz
+.env
