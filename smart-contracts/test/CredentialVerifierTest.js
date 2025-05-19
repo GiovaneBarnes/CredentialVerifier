@@ -1,5 +1,6 @@
 const { expect } = require("chai");
 const { ethers } = require("hardhat");
+const { keccak256 } = require("js-sha3");
 
 describe("CredentialVerifier", function () {
     let contract;
@@ -9,21 +10,20 @@ describe("CredentialVerifier", function () {
         [owner] = await ethers.getSigners();
         const CredentialVerifier = await ethers.getContractFactory("CredentialVerifier");
         contract = await CredentialVerifier.deploy();
-        await contract.deployed();
     });
 
     it("should revert when trying to fetch a non-existent credential", async () => {
-        const idHash = ethers.utils.keccak256(ethers.utils.toUtf8Bytes("fakeUser@example.edu"));
+        const idHash = "0x" + keccak256("fakeUser@example.edu");
 
         await expect(contract.getCredential(idHash)).to.be.revertedWith("Credential doesn't exist");
     });
 
     it("should return credential data if it exists", async () => {
         const id = "student123";
-        const idHash = ethers.utils.keccak256(ethers.utils.toUtf8Bytes(id));
+        const idHash = "0x" + keccak256(id);
 
-        await contract.authorizeIssuer(owner.address);
-        await contract.issueCredential(idHash, "John Doe", "BS Computer Science");
+        await contract.addAuthorizeIssuer(owner.address);
+        await contract.addCredential("John Doe", "BS Computer Science", idHash);
 
         const result = await contract.getCredential(idHash);
         expect(result.recipientName).to.equal("John Doe");
