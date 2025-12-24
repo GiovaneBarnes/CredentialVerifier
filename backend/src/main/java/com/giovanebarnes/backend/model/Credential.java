@@ -5,6 +5,8 @@ public class Credential {
     private String recipientName;
     private String degree;
     private String idHash;
+    private long issuedAt;
+    private int status;
 
     public Credential() {}
 
@@ -12,6 +14,14 @@ public class Credential {
         this.recipientName = recipientName;
         this.degree = degree;
         this.idHash = idHash;
+    }
+
+    public Credential(String recipientName, String degree, String idHash, long issuedAt, int status) {
+        this.recipientName = recipientName;
+        this.degree = degree;
+        this.idHash = idHash;
+        this.issuedAt = issuedAt;
+        this.status = status;
     }
 
     public String getRecipientName() {
@@ -36,6 +46,22 @@ public class Credential {
 
     public void setIdHash(String idHash) {
         this.idHash = idHash;
+    }
+
+    public long getIssuedAt() {
+        return issuedAt;
+    }
+
+    public void setIssuedAt(long issuedAt) {
+        this.issuedAt = issuedAt;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 }
 
